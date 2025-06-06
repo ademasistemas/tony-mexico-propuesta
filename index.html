@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta y Acceso a Demo - Plataforma de Inventario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family-sans: 'Inter', sans-serif;
+            --color-background: #f8f9fa;
+            --color-surface: #ffffff;
+            --color-text-primary: #1e293b;
+            --color-text-secondary: #64748b;
+            --color-accent: #0f172a;
+            --color-accent-light: #4f46e5;
+            --color-border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+        }
+        body { font-family:var(--font-family-sans); margin:0; padding:40px 20px; background-color:var(--color-background); color:var(--color-text-primary); line-height:1.7; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+        .container { max-width:800px; margin:0 auto; background-color:var(--color-surface); padding:50px 60px; box-shadow:var(--shadow); border-radius:var(--border-radius); }
+        header { text-align:center; margin-bottom:60px; }
+        header img { max-width:160px; margin-bottom:20px; }
+        header h1 { color:var(--color-accent); margin:0; font-size:2.2em; font-weight:700; letter-spacing:1px; }
+        header p { color:var(--color-text-secondary); font-size:0.95em; margin:4px 0 0; }
+        h2 { color:var(--color-accent); padding-bottom:12px; margin-top:50px; margin-bottom:25px; font-size:1.2em; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; border-bottom:1px solid var(--color-border); }
+        h3 { color:var(--color-text-primary); margin-top:30px; margin-bottom:15px; font-size:1.2em; font-weight:600; }
+        p, ul { margin-bottom:15px; color:var(--color-text-secondary); }
+        p strong, ul b { color:var(--color-text-primary); font-weight:500; }
+        ul { list-style-type:none; padding-left:0; }
+        ul li { margin-bottom:10px; padding-left:20px; position:relative; }
+        ul li::before { content:'✓'; position:absolute; left:0; color:#10b981; font-weight:700; }
+        
+        /* === AJUSTE: He movido los estilos de la lista ordenada aquí para mantener el código limpio === */
+        ol { list-style-type: decimal; padding-left: 20px; color: var(--color-text-secondary); }
+        ol li { margin-bottom: 10px; }
+
+        table { width:100%; border-collapse:collapse; margin-top:30px; margin-bottom:20px; font-size:0.95em; }
+        table th, table td { padding:15px; text-align:left; border-bottom:1px solid var(--color-border); }
+        table th { color:var(--color-text-secondary); font-weight:600; text-transform:uppercase; font-size:0.8em; letter-spacing:1px; }
+        table td { color:var(--color-text-primary); }
+        table tbody tr:last-child td { border-bottom:none; }
+        .highlight-box { text-align:center; background-color:#f7f9fc; border:1px solid var(--color-border); padding:30px; margin:40px 0; border-radius:var(--border-radius); }
+        .button { display: inline-block; background-color: var(--color-accent-light); color: white; padding: 12px 25px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: transform 0.2s; }
+        .button:hover { transform: scale(1.05); }
+
+        /* === NUEVO: Contenedor para hacer el video responsivo === */
+        .video-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* Proporción 16:9 para videos */
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .footer { text-align:center; margin-top:70px; padding-top:30px; border-top:1px solid var(--color-border); font-size:0.85em; color:#94a3b8; }
+
+        /* === Media Query para responsividad en móviles === */
+        @media (max-width: 768px) { 
+            body { padding:20px 10px; } 
+            .container { padding:30px 20px; } 
+
+            /* === AJUSTE: Tipografía más balanceada en móvil === */
+            header h1 { font-size: 1.9em; }
+            h2 { font-size: 1.1em; letter-spacing: 1.2px; }
+            h3 { font-size: 1.1em; }
+
+            /* === NUEVO: Estilos para la tabla responsiva === */
+            table thead {
+                display: none; /* Ocultamos los encabezados de la tabla */
+            }
+            table, table tbody, table tr, table td {
+                display: block;
+                width: 100%;
+            }
+            table tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--color-border);
+                border-radius: var(--border-radius);
+                padding: 5px 15px;
+            }
+            table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: right;
+                padding: 12px 0;
+                border: none;
+                border-bottom: 1px dashed var(--color-border);
+            }
+            table tr td:last-child {
+                border-bottom: none;
+            }
+            /* Usamos el atributo 'data-label' para crear una pseudo-columna */
+            table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                text-align: left;
+                padding-right: 15px;
+                color: var(--color-text-primary);
+            }
+            table .price-total {
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://ademasistemas.com/static/logo.png" alt="Logo Adamasistemas">
+            <h1>Propuesta de Servicio y Acceso a Demo</h1>
+            <p>Plataforma para Gestión de Inventario y Asignaciones de Personal</p>
+        </header>
+
+        <main>
+            <h2>CLIENTE</h2>
+            <p><strong>Atención:</strong> Tony</p>
+            <p><strong>País:</strong> México</p>
+            <p><strong>Fecha:</strong> 06 de Junio de 2025</p>
+
+            <h2>LA SOLUCIÓN PARA SU GESTIÓN</h2>
+            <p>Hola Tony, analizando su necesidad de gestionar el vestuario y equipo de trabajo para su personal, hemos preparado el acceso a nuestra plataforma de inventario, la cual se ajusta perfectamente a su modelo de <strong>asignación y control de responsabilidad</strong>.</p>
+
+            <div class="highlight-box">
+                <h3 style="margin-top:0;">Video Tutorial Personalizado</h3>
+                <p>He grabado un breve video para usted, mostrando el sistema en acción y cómo responde a sus necesidades. Puede verlo aquí:</p>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1H1mD9aGp7guOzArvAjKQ_8ubYnNVSD28/preview" 
+                        allow="fullscreen">
+                    </iframe>
+                </div>
+            </div>
+
+            <h2>DETALLES DE LA PLATAFORMA</h2>
+            <p>El sistema le permite tener un control total sobre su operación. A continuación, se detallan las funcionalidades clave:</p>
+
+            <h3>Gestión Centralizada y Flexible</h3>
+            <ul>
+                <li><b>Multi-Empresa:</b> Puede configurar una o más empresas.</li>
+                <li><b>Inventarios Múltiples:</b> Cree diferentes inventarios o depósitos (ej. "Depósito 01", "Depósito Principal") para cada empresa.</li>
+                <li><b>Base de Personal:</b> Administre un registro de todos sus empleados para asociarles las asignaciones de equipo.</li>
+            </ul>
+
+            <h3>Control Total de Productos (con campo "Folio")</h3>
+            <p>El módulo de productos es el corazón del sistema. Podrá registrar cada artículo con campos como código, nombre, rubro, descripción, talle, color y, tal como necesita, un campo <strong>"Folio"</strong> para un seguimiento único. Además, puede gestionar todo masivamente:</p>
+            <ul>
+                <li><b>Importación y Exportación con Excel:</b> Cargue o actualice todo su catálogo de productos de forma masiva, ahorrando horas de trabajo manual.</li>
+            </ul>
+            
+            <h3>Flujo de Asignaciones y Devoluciones</h3>
+            <p>Este es el proceso exacto para manejar la entrega de equipo a su personal:</p>
+            <ol>
+                <li>Crea una <strong>Solicitud de Salida</strong>, seleccionando al empleado y los productos a entregar (camisas, pantalones, equipo, etc.).</li>
+                <li>Una vez lista, presiona <strong>"Confirmar y Generar"</strong>. Esto descuenta los artículos del stock y los asigna formalmente al empleado.</li>
+                <li>El sistema emite un <strong>Certificado en PDF</strong> con el detalle de la entrega, listo para que el empleado lo firme como comprobante de responsabilidad.</li>
+                <li>Para las devoluciones, el proceso es idéntico pero con una <strong>Solicitud de Entrada</strong>, reingresando el equipo al inventario.</li>
+            </ol>
+            
+            <h2>ACCESO A DEMOSTRACIÓN EN VIVO</h2>
+            <div class="highlight-box">
+                <h3 style="margin-top:0;">Pruebe el sistema usted mismo</h3>
+                <p>Hemos habilitado una demo para que pueda navegar y probar todas estas funcionalidades durante los próximos 3 días.</p>
+                <p>
+                    <a href="https://tony.ademasistemas.com" target="_blank" class="button">Acceder a la Demo</a>
+                </p>
+                <p style="margin-top:15px; font-size:0.9em;">URL: <b>tony.ademasistemas.com</b></p>
+            </div>
+
+            <h2>PROPUESTA ECONÓMICA</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CONCEPTO</th>
+                        <th style="text-align: right;">IMPORTE (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Concepto">Configuración Inicial de la Cuenta y Capacitación</td>
+                        <td data-label="Importe (USD)"><b>$ 50</b></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Concepto">Acceso a la Demo Funcional por 3 Días</td>
+                        <td data-label="Importe (USD)"><b>SIN CARGO</b></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Concepto"><b>Servicio Mensual de Plataforma en la Nube</b><br><small>Incluye Hosting, Soporte, Mantenimiento y Backups.</small></td>
+                        <td data-label="Importe (USD)" class="price-total">$ 40 / mes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>¿NECESITA MODIFICaciones? (DESARROLLO A MEDIDA)</h2>
+            <p>La plataforma actual es un punto de partida sólido y flexible. Si después de probar la demo considera que necesita alguna funcionalidad adicional o un ajuste específico, <strong>podemos pactar una reunión para evaluarlo</strong>. </p>
+            <p>Los desarrollos a medida se cotizan por separado, permitiéndole construir la herramienta perfecta sobre una base ya funcional. Nuestra tarifa de referencia para desarrollos es de <b>$30 USD por hora</b>.</p>
+
+            <h2>PRÓXIMOS PASOS</h2>
+            <ol>
+                <li>Mire el <a href="https://drive.google.com/file/d/1H1mD9aGp7guOzArvAjKQ_8ubYnNVSD28/preview" target="_blank">video-tutorial</a> que preparamos para usted.</li>
+                <li>Explore la <a href="https://tony.ademasistemas.com" target="_blank">demo</a> durante estos 3 días.</li>
+                <li>Si la solución le funciona, nos avisa y procedemos con la activación de su cuenta definitiva abonando únicamente el primer mes del servidor.</li>
+                <li>Si requiere ajustes, agendamos una breve reunión para conversar sobre ellos.</li>
+            </ol>
+        </main>
+
+        <div class="footer">
+            <p>Gracias por la oportunidad de presentarle esta propuesta. Estamos a su disposición para cualquier consulta.</p>
+            <p>&copy; 2025 Adamasistemas. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
